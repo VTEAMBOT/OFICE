@@ -81,7 +81,6 @@ from linebot.v3.messaging import (
     LocationAction,
     ErrorResponse
 )
-
 from linebot.v3.insight import (ApiClient as InsightClient, Insight)
 
 app = Flask(__name__)
@@ -101,9 +100,6 @@ def make_static_tmp_dir():
             pass
         else:
             raise
-
-
-
 
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text_message(event):
