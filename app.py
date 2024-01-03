@@ -88,13 +88,8 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1, x_proto=1)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 app.logger.setLevel(logging.INFO)
-
-channel_secret = os.getenv('49f9e285b65b3d8c265880d7c3f6bfee', None)
-channel_access_token = os.getenv('V71t8REWisNgvLpa+nuheCxB5EnA80tCeuWtw7mv9/lttY3dS3bYhf2UI7o3Zxx7zfzrQ1UpI2tIG0NnV3AWbiL/o1mDV0w6vCHb2tSv8Xmw247dRUdlukzJmFAmcIkmCKUmjMiDShinbzmb3amRnwdB04t89/1O/w1cDnyilFU=', None)
-if channel_secret is None or channel_access_token is None:
-    print('Specify LINE_CHANNEL_SECRET and LINE_CHANNEL_ACCESS_TOKEN as environment variables.')
-    sys.exit(1)
-
+channel_secret = os.getenv('49f9e285b65b3d8c265880d7c3f6bfee')
+channel_access_token = os.getenv('V71t8REWisNgvLpa+nuheCxB5EnA80tCeuWtw7mv9/lttY3dS3bYhf2UI7o3Zxx7zfzrQ1UpI2tIG0NnV3AWbiL/o1mDV0w6vCHb2tSv8Xmw247dRUdlukzJmFAmcIkmCKUmjMiDShinbzmb3amRnwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler(channel_secret)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 configuration = Configuration(access_token=channel_access_token)
