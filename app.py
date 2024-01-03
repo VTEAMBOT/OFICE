@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+
+#  Licensed under the Apache License, Version 2.0 (the "License"); you may
+#  not use this file except in compliance with the License. You may obtain
+#  a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#  License for the specific language governing permissions and limitations
+#  under the License.
+
+
 import datetime
 import errno
 import os
@@ -92,14 +107,25 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1, x_proto=1)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 app.logger.setLevel(logging.INFO)
-channel_secret = ('c1a32bb792d33105b21b0e4ffeea680f')
-channel_access_token = ('9JbP+PRmPFu1AU5s2cMeUCRiD0H/WTg+1G6N0iqQtmwbyqo8t44wTKJIhfr2DOqEzfzrQ1UpI2tIG0NnV3AWbiL/o1mDV0w6vCHb2tSv8XkASczwcYa6vM46Dr1aBrOIYyCmxQEgJHfRR35g3PHBbwdB04t89/1O/w1cDnyilFU=')
+
+
+# get channel_secret and channel_access_token from your environment variable
+channel_secret = os.getenv('49f9e285b65b3d8c265880d7c3f6bfee', None)
+channel_access_token = os.getenv('V71t8REWisNgvLpa+nuheCxB5EnA80tCeuWtw7mv9/lttY3dS3bYhf2UI7o3Zxx7zfzrQ1UpI2tIG0NnV3AWbiL/o1mDV0w6vCHb2tSv8Xmw247dRUdlukzJmFAmcIkmCKUmjMiDShinbzmb3amRnwdB04t89/1O/w1cDnyilFU=', None)
+if channel_secret is None or channel_access_token is None:
+    print('Specify LINE_CHANNEL_SECRET and LINE_CHANNEL_ACCESS_TOKEN as environment variables.')
+    sys.exit(1)
+
 handler = WebhookHandler(channel_secret)
+
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
+
 configuration = Configuration(
     access_token=channel_access_token
 )
 
+
+# function for create tmp dir for download content
 def make_static_tmp_dir():
     try:
         os.makedirs(static_tmp_path)
@@ -891,13 +917,16 @@ def handle_member_joined(event):
 def handle_member_left(event):
     app.logger.info("Got memberLeft event")
 
+
 @handler.add(UnknownEvent)
 def handle_unknown_left(event):
     app.logger.info(f"unknown event {event}")
 
+
 @app.route('/static/<path:path>')
 def send_static_content(path):
     return send_from_directory('static', path)
+
 
 if __name__ == "__main__":
     arg_parser = ArgumentParser(
@@ -906,5 +935,8 @@ if __name__ == "__main__":
     arg_parser.add_argument('-p', '--port', type=int, default=8000, help='port')
     arg_parser.add_argument('-d', '--debug', default=False, help='debug')
     options = arg_parser.parse_args()
+
+    # create tmp dir for download content
     make_static_tmp_dir()
+
     app.run(debug=options.debug, port=options.port)
