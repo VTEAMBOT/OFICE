@@ -92,22 +92,14 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1, x_proto=1)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 app.logger.setLevel(logging.INFO)
-
-
-# get channel_secret and channel_access_token from your environment variable
 channel_secret = ('c1a32bb792d33105b21b0e4ffeea680f')
 channel_access_token = ('9JbP+PRmPFu1AU5s2cMeUCRiD0H/WTg+1G6N0iqQtmwbyqo8t44wTKJIhfr2DOqEzfzrQ1UpI2tIG0NnV3AWbiL/o1mDV0w6vCHb2tSv8XkASczwcYa6vM46Dr1aBrOIYyCmxQEgJHfRR35g3PHBbwdB04t89/1O/w1cDnyilFU=')
-
 handler = WebhookHandler(channel_secret)
-
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
-
 configuration = Configuration(
     access_token=channel_access_token
 )
 
-
-# function for create tmp dir for download content
 def make_static_tmp_dir():
     try:
         os.makedirs(static_tmp_path)
@@ -899,16 +891,13 @@ def handle_member_joined(event):
 def handle_member_left(event):
     app.logger.info("Got memberLeft event")
 
-
 @handler.add(UnknownEvent)
 def handle_unknown_left(event):
     app.logger.info(f"unknown event {event}")
 
-
 @app.route('/static/<path:path>')
 def send_static_content(path):
     return send_from_directory('static', path)
-
 
 if __name__ == "__main__":
     arg_parser = ArgumentParser(
