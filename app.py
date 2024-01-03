@@ -17,10 +17,7 @@ from linebot.v3.messaging import (
     CreateRichMenuAliasRequest
 )
 
-channel_access_token = os.getenv('Qi55xFYRRlzFXAU1k6bp0KMxGMmEWQKYN5VzI1FMSUvr0wlStVH7sdVmfJuNKx0tgycpqUPfNp5mtu1bJp1VCRA+ee4IdB8/BnL/cu4uBoenxnQscdsc4oqcpHwWg7e+FebLl23FTsS2Vc93PwhLSwdB04t89/1O/w1cDnyilFU=', None)
-if channel_access_token is None:
-    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
-    sys.exit(1)
+channel_access_token = os.getenv('Qi55xFYRRlzFXAU1k6bp0KMxGMmEWQKYN5VzI1FMSUvr0wlStVH7sdVmfJuNKx0tgycpqUPfNp5mtu1bJp1VCRA+ee4IdB8/BnL/cu4uBoenxnQscdsc4oqcpHwWg7e+FebLl23FTsS2Vc93PwhLSwdB04t89/1O/w1cDnyilFU=')
 
 configuration = Configuration(
     access_token=channel_access_token
