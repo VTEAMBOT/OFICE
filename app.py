@@ -87,7 +87,6 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1, x_proto=1)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 app.logger.setLevel(logging.INFO)
-configuration = Configuration(access_token="Qi55xFYRRlzFXAU1k6bp0KMxGMmEWQKYN5VzI1FMSUvr0wlStVH7sdVmfJuNKx0tgycpqUPfNp5mtu1bJp1VCRA+ee4IdB8/BnL/cu4uBoenxnQscdsc4oqcpHwWg7e+FebLl23FTsS2Vc93PwhLSwdB04t89/1O/w1cDnyilFU=")
 handler = WebhookHandler('dc352c9b541f3738910582b03ed6759e')
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 def make_static_tmp_dir():
@@ -102,7 +101,7 @@ def make_static_tmp_dir():
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_text_message(event):
     text = event.message.text
-    with ApiClient(configuration) as api_client:
+    with ApiClient("Qi55xFYRRlzFXAU1k6bp0KMxGMmEWQKYN5VzI1FMSUvr0wlStVH7sdVmfJuNKx0tgycpqUPfNp5mtu1bJp1VCRA+ee4IdB8/BnL/cu4uBoenxnQscdsc4oqcpHwWg7e+FebLl23FTsS2Vc93PwhLSwdB04t89/1O/w1cDnyilFU=") as api_client:
         line_bot_api = MessagingApi(api_client)
         if text == 'profile':
             if isinstance(event.source, UserSource):
